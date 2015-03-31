@@ -59,7 +59,7 @@
                 
                 <div class="text_info clearfix"><span>日期：</span></div>
                 <div class="input_info">
-                    <input type="text" name="assignment.assignmentDate" value="<%=assignment.getAssignmentDate() %>" onclick="setDay(this);" />
+                    <input type="text" name="assignment.assignmentDate" value="<%=assignment.getAssignmentDate() %>" />
                 </div>
                 <div class="text_info clearfix"><span>作业内容：</span></div>
                 <div class="input_info_high">

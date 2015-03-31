@@ -1,5 +1,6 @@
 package com.orga.action;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,11 +108,15 @@ public class AssignmentAction extends ActionSupport{
             assignment.setCourseSchedule(courseInfo);
             
             assignmentDAO.AddAssignment(assignment);
-            ctx.put("message",  java.net.URLEncoder.encode("Assignment添加成功!"));
+            ctx.put("message",  java.net.URLEncoder.encode("Assignment添加成功!","gbk"));
             return "add_success";
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.put("error",  java.net.URLEncoder.encode("Assignment添加失败!"));
+            try {
+				ctx.put("error",  java.net.URLEncoder.encode("Assignment添加失败!","gbk"));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
             return "error";
         }
     }
@@ -166,11 +171,15 @@ public class AssignmentAction extends ActionSupport{
             assignment.setCourseSchedule(courseInfo);
             
 			assignmentDAO.UpdateAssignment(assignment);
-			ctx.put("message", java.net.URLEncoder.encode("CourseSchedule信息更新成功!"));
+			ctx.put("message", java.net.URLEncoder.encode("CourseSchedule信息更新成功!", "gbk"));
 			return "modify_success";
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			ctx.put("error", java.net.URLEncoder.encode("CourseSchedule信息更新失败!"));
+			try {
+				ctx.put("error", java.net.URLEncoder.encode("CourseSchedule信息更新失败!", "gbk"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			return "error";
 		}
 	}
@@ -179,11 +188,15 @@ public class AssignmentAction extends ActionSupport{
     	ActionContext ctx = ActionContext.getContext();
     	try {
 			assignmentDAO.DeleteAssignment(assignmentId);
-			ctx.put("message",  java.net.URLEncoder.encode("作业删除成功!"));
+			ctx.put("message",  java.net.URLEncoder.encode("作业删除成功!", "gbk"));
             return "delete_success";
 		} catch (Exception e) {
 			e.printStackTrace();
-			ctx.put("error",  java.net.URLEncoder.encode("作业删除失败!"));
+			try {
+				ctx.put("error",  java.net.URLEncoder.encode("作业删除失败!", "gbk"));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
             return "error";
 		}
     }

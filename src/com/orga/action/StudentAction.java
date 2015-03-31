@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -165,7 +166,7 @@ public class StudentAction extends ActionSupport {
         try {
         	db_student = studentDAO.GetStudentByNumber(studentNumber);
         	if(null != db_student) {
-                ctx.put("error",  java.net.URLEncoder.encode("该学号已经存在!"));
+                ctx.put("error",  java.net.URLEncoder.encode("该学号已经存在!", "gbk"));
                 return "error";
             }
         } catch (Exception ex) {
@@ -211,11 +212,15 @@ public class StudentAction extends ActionSupport {
             	student.setStudentPhoto("upload/NoImage.jpg");
             studentDAO.AddStudent(student);
             
-            ctx.put("message",  java.net.URLEncoder.encode("学生添加成功!"));
+            ctx.put("message",  java.net.URLEncoder.encode("学生添加成功!", "gbk"));
             return "add_success";
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.put("error",  java.net.URLEncoder.encode("Student添加失败!"));
+            try {
+				ctx.put("error",  java.net.URLEncoder.encode("Student添加失败!", "gbk"));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
             return "error";
         }
     }
@@ -228,7 +233,11 @@ public class StudentAction extends ActionSupport {
 		DumpMsg("UploadExcelFile excelFile is Null ? " + (excelFile == null) + ", classNumber=" + classNumber);
 		ActionContext ctx = ActionContext.getContext();
 		if(excelFile == null) {
-			ctx.put("error",  java.net.URLEncoder.encode("excel文件找不到!"));
+			try {
+				ctx.put("error",  java.net.URLEncoder.encode("excel文件找不到!", "gbk"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			return "error";
 		}
 		InputStream is = null;
@@ -244,7 +253,11 @@ public class StudentAction extends ActionSupport {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			ctx.put("error",  java.net.URLEncoder.encode("学生信息添加失败!"));
+			try {
+				ctx.put("error",  java.net.URLEncoder.encode("学生信息添加失败!", "gbk"));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
             return "error";
 		} finally {
 			try {
@@ -254,7 +267,11 @@ public class StudentAction extends ActionSupport {
 				e.printStackTrace();
 			}
 		}
-		ctx.put("message",  java.net.URLEncoder.encode("学生信息添加成功!"));
+		try {
+			ctx.put("message",  java.net.URLEncoder.encode("学生信息添加成功!", "gbk"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
         return "add_success";
 	}
 	
@@ -318,7 +335,11 @@ public class StudentAction extends ActionSupport {
             return "query_class_student";
     	} catch (Exception ex) {
     		ex.printStackTrace();
-    		ctx.put("error",  java.net.URLEncoder.encode("查询学生信息失败!"));
+    		try {
+				ctx.put("error",  java.net.URLEncoder.encode("查询学生信息失败!", "gbk"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
     		return "error";
     	}
     }
@@ -355,7 +376,11 @@ public class StudentAction extends ActionSupport {
             
     	} catch (Exception ex) {
     		ex.printStackTrace();
-    		ctx.put("error",  java.net.URLEncoder.encode("查询学生信息失败!"));
+    		try {
+				ctx.put("error",  java.net.URLEncoder.encode("查询学生信息失败!","gbk"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
     		return "error";
     	}
     }
@@ -381,7 +406,11 @@ public class StudentAction extends ActionSupport {
             return "modify_view";
         } catch (Exception ex) {
         	ex.printStackTrace();
-        	ctx.put("error",  java.net.URLEncoder.encode("修改学生信息失败!"));
+        	try {
+				ctx.put("error",  java.net.URLEncoder.encode("修改学生信息失败!","gbk"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
     		return "error";
         }
     }
@@ -409,7 +438,7 @@ public class StudentAction extends ActionSupport {
        			else if(fileContentType.equals("image/gif"))
        				studentPhotoFileName = UUID.randomUUID().toString() +  ".gif";
        			else {
-       				ctx.put("error",  java.net.URLEncoder.encode("上传图片格式不正确!"));
+       				ctx.put("error",  java.net.URLEncoder.encode("上传图片格式不正确!", "gbk"));
        				return "error";
        			}
        			File file = new File(path, studentPhotoFileName);
@@ -424,11 +453,15 @@ public class StudentAction extends ActionSupport {
        			student.setStudentPhoto("upload/" + studentPhotoFileName);
        	 	}
             studentDAO.UpdateStudent(student);
-            ctx.put("message",  java.net.URLEncoder.encode("Student信息更新成功!"));
+            ctx.put("message",  java.net.URLEncoder.encode("Student信息更新成功!", "gbk"));
             return "modify_success";
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.put("error",  java.net.URLEncoder.encode("Student信息更新失败!"));
+            try {
+				ctx.put("error",  java.net.URLEncoder.encode("Student信息更新失败!", "gbk"));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
             return "error";
        }
    }
@@ -438,11 +471,16 @@ public class StudentAction extends ActionSupport {
         ActionContext ctx = ActionContext.getContext();
         try { 
             studentDAO.DeleteStudent(studentNumber);
-            ctx.put("message",  java.net.URLEncoder.encode("Student删除成功!"));
+            ctx.put("message",  java.net.URLEncoder.encode("Student删除成功!", "gbk"));
             return "delete_success";
         } catch (Exception e) { 
             e.printStackTrace();
-            ctx.put("error",  java.net.URLEncoder.encode("Student删除失败!"));
+            try {
+				ctx.put("error",  java.net.URLEncoder.encode("Student删除失败!", "gbk"));
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             return "error";
         }
     }

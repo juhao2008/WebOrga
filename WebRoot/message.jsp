@@ -2,7 +2,8 @@
 <% 
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String message=java.net.URLDecoder.decode((String)request.getAttribute("message")); 
+
+String message=java.net.URLDecoder.decode(request.getAttribute("error").toString(), "gbk"); 
 
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">

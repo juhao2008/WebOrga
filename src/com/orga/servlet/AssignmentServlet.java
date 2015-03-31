@@ -93,7 +93,11 @@ public class AssignmentServlet extends HttpServlet {
 				
 				StudentAssignment assignmentStatus = assignmentStatusDAO.GetStudentAssignmentById(id);
 				assignmentStatus.setAssignmentStatus(value);
-				
+				if(value == StudentAssignment.STATUS_FINISH_UNSIGN) {
+					assignmentStatus.setFinishDate(CommUtil.getCurrentDateTimeStr());
+				} else if(value == StudentAssignment.STATUS_FINISH_SIGN) {
+					assignmentStatus.setSignDate(CommUtil.getCurrentDateTimeStr());
+				}
 				assignmentStatusDAO.UpdateStudentAssignment(assignmentStatus);
 				outSuccessResult(response, null);
 				

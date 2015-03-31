@@ -2,15 +2,15 @@ package com.orga.domain;
 
 public class StudentAssignment {
 	public final static int STATUS_UNFINISH = 0;
-	public final static int STATUS_UNSIGN = 1;
-	public final static int STATUS_FINISH = 2;
+	public final static int STATUS_FINISH_UNSIGN = 1;
+	public final static int STATUS_FINISH_SIGN = 2;
 	private int id;
 	private Student student;
 	private Assignment assignment;
 	private String finishDate;
 	private String signDate;
 	private String signUrl;
-	/** 0:未完成  1未签字  2:已完成  **/
+	/** 0:未完成  1:已完成未签字  2: 完成并已签字**/
 	private int assignmentStatus;
 	
 	public String getSignUrl() {

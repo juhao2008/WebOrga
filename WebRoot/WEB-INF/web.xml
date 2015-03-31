@@ -113,6 +113,14 @@
         <url-pattern>/NotifyServlet</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>UpPhotoServlet</servlet-name>
+        <servlet-class>com.orga.servlet.UpPhotoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpPhotoServlet</servlet-name>
+        <url-pattern>/UpPhotoServlet</url-pattern>
+    </servlet-mapping>
   
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

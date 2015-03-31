@@ -5,8 +5,8 @@
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 	String error = "";
 	try {
-		//error = URLDecoder.decode((String) request.getAttribute("error"));
-		error = request.getParameter("error");
+		error = URLDecoder.decode(request.getParameter("error"), "gbk");
+		//error = request.getParameter("error");
 	} catch (Exception ex) {
 		System.out.println("error.jsp decode error");
 		ex.printStackTrace();

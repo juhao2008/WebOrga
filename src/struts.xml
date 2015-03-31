@@ -227,9 +227,6 @@
              <result name="delete_success">/message.jsp</result>
              <result name="modify_success">/message.jsp</result>
              <result name="error">/error.jsp</result>
-             
-             <result name="front_query_view">/News_frontquery_result.jsp</result>
-             <result name="front_show_view">/News_frontshow.jsp</result>
            </action>
          </package>
          
@@ -244,9 +241,6 @@
              <result name="delete_success">/message.jsp</result>
              <result name="modify_success">/message.jsp</result>
              <result name="error">/error.jsp</result>
-             <result name="query_view">/Assignment_query_all.jsp</result>
-             <result name="front_query_view">/News_frontquery_result.jsp</result>
-             <result name="front_show_view">/News_frontshow.jsp</result>
            </action>
          </package>
 

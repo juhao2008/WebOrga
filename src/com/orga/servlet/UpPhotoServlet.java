@@ -32,7 +32,6 @@ public class UpPhotoServlet extends HttpServlet {
 	 */
 	public UpPhotoServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -41,7 +40,6 @@ public class UpPhotoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		this.doPost(request, response);
 	}
 
@@ -51,7 +49,7 @@ public class UpPhotoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		String loadpath=this.getServletConfig().getServletContext().getRealPath("/")+"upload";
 		String temp = this.getServletConfig().getServletContext().getRealPath("/")+"upload/temp"; // 临时目录
 		System.out.println("temp=" + temp);
@@ -100,7 +98,6 @@ public class UpPhotoServlet extends HttpServlet {
 				try {
 					item.write(fNew);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 
 			} else// 取出不是文件域的所有表单信息
