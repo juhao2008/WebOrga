@@ -1,0 +1,37 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.orga.domain">
+
+	<class name="Notify" table="t_Notify">
+
+		<!-- 主键记录编号 -->
+		<id name="notifyId" column="notifyId">
+			<generator class="native" />
+		</id>
+		
+		<!-- 简单字符串属性: 新闻标题 -->
+		<property name="notifyAuthor" column="notifyAuthor" type="string"
+			length="20" />
+		
+		<!-- 多对一属性: 新闻发布学校 -->
+		<many-to-one name="notifyClass" column="notifyClass"
+			class="ClassInfo" lazy="false" outer-join="true" cascade="save-update" />
+
+		<!-- 简单字符串属性: 新闻标题 -->
+		<property name="notifyTitle" column="notifyTitle" type="string"
+			length="50" />
+
+		<!-- 简单字符串属性: 新闻内容 -->
+		<property name="notifyContent" column="notifyContent" type="string"
+			length="500" />
+
+		<!-- 简单日期型属性: 发布日期 -->
+		<property name="notifyDate" column="notifyDate" type="string"
+			length="10" />
+
+	</class>
+
+</hibernate-mapping>
+ 

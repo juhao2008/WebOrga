@@ -1,0 +1,29 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.orga.domain">
+
+	<class name="LoginRecord" table="t_loginrecord">
+
+		<!-- 主键记录编号: 登录用户名 -->
+		<id name="loginName" type="string" length="50">
+			<generator class="assigned" />
+		</id>
+		
+		<!-- 简单字符串属性: 角色说明 -->
+		<property name="loginIp" column="loginIp" type="string" length="20" />
+		
+		<!-- 简单日期型属性: 登录日期 -->
+		<property name="loginTime" column="loginTime" type="string" length="30" />
+		
+		<!-- 简单日期型属性: 上次登录日期 -->
+		<property name="lastestLoginTime" column="lastestLoginTime" type="string" length="30" />
+		
+		<!-- 简单字符串属性: 登录地点 -->
+		<property name="loginWhere" column="loginWhere" type="string" length="50" />
+
+	</class>
+
+</hibernate-mapping>
+ 

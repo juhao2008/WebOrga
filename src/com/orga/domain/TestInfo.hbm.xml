@@ -1,0 +1,36 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.orga.domain">
+
+	<class name="TestInfo" table="t_TestInfo">
+
+		<!-- 主键记录编号 -->
+		<id name="testId" column="testId">
+			<generator class="native" />
+		</id>
+		<!-- 简单字符串属性: 考试名称 -->
+		<property name="testTitle" column="testTitle" type="string" length="20" />
+
+		<!-- 多对一属性: 课程安排 -->
+		<many-to-one name="courseSchedule" column="courseSchedule"
+			class="CourseSchedule" lazy="false" outer-join="true" cascade="save-update" />
+		
+		<!-- 简单字符串属性: 考试时间 -->
+		<property name="testDate" column="testDate" type="string" length="20" />
+
+		<!-- 简单字符串属性: 总体评价 -->
+		<property name="testEvaluate" column="testEvaluate"
+			type="string" length="100" />
+		
+		<!-- 简单字符串属性: 考试目的 -->
+		<property name="testPropose" column="testPropose"
+			type="string" length="50" />
+		
+		<!-- 简单字符串属性: 此次测验是否记入总成绩 -->
+		<property name="recordScore" column="recordScore" type="int" />
+	</class>
+
+</hibernate-mapping>
+ 

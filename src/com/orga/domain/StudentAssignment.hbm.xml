@@ -1,0 +1,35 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.orga.domain">
+
+	<class name="Assignment" table="t_Assignment">
+
+		<!-- 主键记录编号 -->
+		<id name="id" column="id">
+			<generator class="native" />
+		</id>
+
+		<!-- 多对一属性: 学生 -->
+		<many-to-one name="student" column="student"
+			class="student" lazy="false" outer-join="true" cascade="save-update" />
+		
+		<!-- 多对一属性: 作业 -->
+		<many-to-one name="assignment" column="assignment"
+			class="assignment" lazy="false" outer-join="true" cascade="save-update" />
+		
+		<!-- 简单字符串属性: 完成日期 -->
+		<property name="finishDate" column="finishDate" type="string" length="20"/>
+
+		<!-- 简单字符串属性: 签字日期 -->
+		<property name="signDate" column="signDate" type="string" length="20" />
+		<!-- 简单字符串属性: 签字图片 -->
+		<property name="signUrl" column="signUrl" type="string" length="20" />
+
+		<!-- 作业状态: 0:未完成  1:已完成  2:已签字 -->
+		<property name="assignmentStatus" column="assignmentStatus" type="int" />
+	</class>
+
+</hibernate-mapping>
+ 

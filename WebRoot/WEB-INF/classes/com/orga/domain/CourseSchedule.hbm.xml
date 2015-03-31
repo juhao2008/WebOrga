@@ -1,0 +1,45 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.orga.domain">
+
+	<class name="CourseSchedule" table="t_CourseSchedule">
+
+		<!-- 主键记录编号 -->
+		<id name="id" column="id">
+			<generator class="native" />
+		</id>
+		
+		<!-- 多对一属性: 班级 -->
+		<many-to-one name="classInfo" column="classInfo"
+			class="ClassInfo" lazy="false" outer-join="true" cascade="save-update" />
+
+		<!-- 多对一属性: 课程 -->
+		<many-to-one name="courseInfo" column="courseInfo"
+			class="CourseInfo" lazy="false" outer-join="true" cascade="save-update" />
+		
+		<!-- 多对一属性: 学期 -->
+		<many-to-one name="termInfo" column="termInfo"
+			class="TermInfo" lazy="false" outer-join="true" cascade="save-update" />
+		
+		<!-- 多对一属性: 代课教师 -->
+		<many-to-one name="teacherInfo" column="teacherInfo"
+			class="Teacher" lazy="false" outer-join="true" cascade="save-update" />
+		
+		<!-- 简单属性: 课时按排 -->
+		<property name="scheduleHour" column="scheduleHour" type="string"
+			length="100" />
+		
+		<!-- 简单属性: 课程计划 -->
+		<property name="representative" column="representative" type="string"
+			length="20" />
+
+		<!-- 简单属性: 课程计划 -->
+		<property name="scheduleMemo" column="scheduleMemo" type="string"
+			length="100" />
+
+	</class>
+
+</hibernate-mapping>
+ 

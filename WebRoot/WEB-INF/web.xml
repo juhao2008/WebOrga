@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+    version="2.5">
+  <!-- 指定spring的配置文件，默认从web根目录寻找配置文件，我们可以通过spring提供的classpath:前缀指定从类路径下寻找 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:beans.xml</param-value>
+  </context-param>
+  
+  <!-- 对Spring容器进行实例化 -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <!-- 对session配置20分钟超时 -->
+  <session-config>
+    <session-timeout>20</session-timeout>
+  </session-config>
+  
+  <!-- struts启用配置 -->
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>*.action</url-pattern>
+  </filter-mapping>
+  
+  <!-- 登录配置 -->
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.orga.servlet.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+  
+  <!-- 新闻信息管理servlet配置 -->
+    <servlet>
+        <servlet-name>NewsServlet</servlet-name>
+        <servlet-class>com.orga.servlet.NewsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewsServlet</servlet-name>
+        <url-pattern>/NewsServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>StudentServlet</servlet-name>
+        <servlet-class>com.orga.servlet.StudentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StudentServlet</servlet-name>
+        <url-pattern>/StudentServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ClassInfoServlet</servlet-name>
+        <servlet-class>com.orga.servlet.ClassInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClassInfoServlet</servlet-name>
+        <url-pattern>/ClassInfoServlet</url-pattern>
+    </servlet-mapping>
+    
+    <!-- 课程按排servlet配置 -->
+    <servlet>
+        <servlet-name>CourseScheduleServlet</servlet-name>
+        <servlet-class>com.orga.servlet.CourseScheduleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CourseScheduleServlet</servlet-name>
+        <url-pattern>/CourseScheduleServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AssignmentServlet</servlet-name>
+        <servlet-class>com.orga.servlet.AssignmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AssignmentServlet</servlet-name>
+        <url-pattern>/AssignmentServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>TestInfoServlet</servlet-name>
+        <servlet-class>com.orga.servlet.TestInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestInfoServlet</servlet-name>
+        <url-pattern>/TestInfoServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ScoreInfoServlet</servlet-name>
+        <servlet-class>com.orga.servlet.ScoreInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ScoreInfoServlet</servlet-name>
+        <url-pattern>/ScoreInfoServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>NotifyServlet</servlet-name>
+        <servlet-class>com.orga.servlet.NotifyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NotifyServlet</servlet-name>
+        <url-pattern>/NotifyServlet</url-pattern>
+    </servlet-mapping>
+    
+  
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+</web-app>

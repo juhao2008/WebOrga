@@ -1,0 +1,28 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.orga.domain">
+
+	<class name="CourseInfo" table="t_CourseInfo">
+
+		<!-- 主键课程编号 -->
+		<id name="courseNumber" type="string" length="20">
+			<generator class="assigned" />
+		</id>
+
+		<!-- 简单字符串属性: 课程名称 -->
+		<property name="courseName" column="courseName" type="string"
+			length="20" />
+
+		<!-- 简单字符串属性: 附加信息 -->
+		<property name="courseMemo" column="courseMemo" type="string"
+			length="100" />
+		
+		<!-- 简单字符串属性: 用于mobile显示每个课程的icon -->
+		<property name="courseIconIndex" column="courseIconIndex" type="int" />
+
+	</class>
+
+</hibernate-mapping>
+ 
