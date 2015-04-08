@@ -39,7 +39,7 @@ public class StudentAssignmentDAO {
         return recordNumber;
     }
 
-    public void AddStudentAssignment(StudentAssignment stuAssignment) throws Exception {
+    public int AddStudentAssignment(StudentAssignment stuAssignment) throws Exception {
         Session s = null;
         Transaction tx = null;
         try { 
@@ -54,6 +54,7 @@ public class StudentAssignmentDAO {
         } finally {
             HibernateUtil.closeSession();
         }
+        return stuAssignment.getStatusId();
     }
 
     /**
@@ -70,7 +71,7 @@ public class StudentAssignmentDAO {
             s = HibernateUtil.getSession();
             String hql = "From StudentAssignment studentAssignment where 1=1";
             if(CommUtil.isNotNull(studentNumber)) {
-            	hql += " and studentAssignment.student.studentNumber like '%" + studentNumber + "%'";
+            	hql += " and studentAssignment.student='" + studentNumber + "'";
             }
             if(assignmentId > 0) {
             	hql += " and studentAssignment.assignment.assignmentId='" + assignmentId + "'";
@@ -101,7 +102,7 @@ public class StudentAssignmentDAO {
             s = HibernateUtil.getSession();
             String hql = "From StudentAssignment studentAssignment where 1=1";
             if(CommUtil.isNotNull(studentNumber)) {
-            	hql += " and studentAssignment.student.studentNumber like '%" + studentNumber + "%'";
+            	hql += " and studentAssignment.student= '" + studentNumber + "'";
             }
             if(assignmentId > 0) {
             	hql += " and studentAssignment.assignment.assignmentId='" + assignmentId + "'";
@@ -126,7 +127,7 @@ public class StudentAssignmentDAO {
             s = HibernateUtil.getSession();
             String hql = "From StudentAssignment studentAssignment where 1=1";
             if(CommUtil.isNotNull(studentNumber)) {
-            	hql += " and studentAssignment.student.studentNumber like '%" + studentNumber + "%'";
+            	hql += " and studentAssignment.student='" + studentNumber + "'";
             }
             if(assignmentId > 0) {
             	hql += " and studentAssignment.assignment.assignmentId='" + assignmentId + "'";
@@ -146,19 +147,20 @@ public class StudentAssignmentDAO {
     	Session s = null; 
         try {
 			s = HibernateUtil.getSession();
-			String sql = "select id,assignmentStatus,finishDate,signDate,signUrl from t_studentassignment where 1=1";
+			String sql = "select statusId,assignmentStatus,finishDate,signDate,signUrl from t_studentassignment where 1=1";
 			if(CommUtil.isNotNull(studentNumber)) {
-				sql += " and student like '%" + studentNumber + "%'";
+				sql += " and student = '" + studentNumber + "'";
 			}
 			if(assignId > 0) {
 				sql += " and assignment=" + assignId;
 			}
 			SQLQuery query = s.createSQLQuery(sql)
-					.addScalar("id", Hibernate.INTEGER)
+					.addScalar("statusId", Hibernate.INTEGER)
 					.addScalar("assignmentStatus", Hibernate.INTEGER)
 					.addScalar("finishDate", Hibernate.STRING)
 					.addScalar("signDate", Hibernate.STRING)
 					.addScalar("signUrl", Hibernate.STRING);
+			System.out.println("QueryAssignmentStatus sql: " + sql);
 			List<Map> list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 			return list;
         } finally {

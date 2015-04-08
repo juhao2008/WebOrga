@@ -74,7 +74,7 @@ public class AssignmentDAO {
             s = HibernateUtil.getSession();
             String hql = "From Assignment assignment where 1=1";
             if(CommUtil.isNotNull(assignmentName)) {
-            	hql += " and assignment.assignmentName like '%" + assignmentName + "%'";
+            	hql += " and assignment.assignmentName = '" + assignmentName + "'";
             }
             if(courseScheduleNumber > 0) {
             	hql += " and assignment.courseSchedule.id='" + courseScheduleNumber + "'";
@@ -105,7 +105,7 @@ public class AssignmentDAO {
             s = HibernateUtil.getSession();
             String hql = "From Assignment assignment where 1=1";
             if(CommUtil.isNotNull(assignmentName)) {
-            	hql += " and assignment.assignmentName like '%" + assignmentName + "%'";
+            	hql += " and assignment.assignmentName = '" + assignmentName + "'";
             }
             if(courseScheduleId > 0) {
             	hql += " and assignment.courseSchedule.id=" + courseScheduleId;
@@ -130,7 +130,7 @@ public class AssignmentDAO {
             s = HibernateUtil.getSession();
             String hql = "From Assignment assignment where 1=1";
             if(CommUtil.isNotNull(assignmentName)) {
-            	hql += " and assignment.assignmentName like '%" + assignmentName + "%'";
+            	hql += " and assignment.assignmentName = '" + assignmentName + "'";
             }
             if(courseScheduleId > 0) {
             	hql += " and assignment.courseSchedule.id=" + courseScheduleId;
@@ -154,19 +154,22 @@ public class AssignmentDAO {
      * @return
      * @throws Exception
      */
-    public List<Map> QueryClassAssignments(String classNumber) throws Exception{
+    public List<Map> QueryClassAssignments(String classNumber, String studentNumber) throws Exception{
     	Session s = null; 
         try {
 			s = HibernateUtil.getSession();
 			String sql = "select assignmentId, assignmentName, assignmentDate,assignmentContent,assignmentAttachment," +
-					"(select courseName from t_courseinfo where courseNumber like (select courseInfo from t_courseschedule where id=courseSchedule)) as courseName," +
-					"(select teacherName from t_teacher where teacherNumber like (select teacherInfo from t_courseschedule where id=courseSchedule)) as teacherName," +
-					"(select courseIconIndex from t_courseinfo where courseNumber like (select courseInfo from t_courseschedule where id=courseSchedule)) as courseIconIndex" +
-					" from t_assignment where 1=1";
+					"(select courseName from t_courseinfo where courseNumber = (select courseInfo from t_courseschedule where id=courseSchedule)) as courseName," +
+					"(select teacherName from t_teacher where teacherNumber = (select teacherInfo from t_courseschedule where id=courseSchedule)) as teacherName," +
+					"(select courseIconIndex from t_courseinfo where courseNumber = (select courseInfo from t_courseschedule where id=courseSchedule)) as courseIconIndex," +
+					"(select statusId from t_studentassignment b where b.assignment=a.assignmentId and student = '"+ studentNumber + "') as statusId," +
+					"(select assignmentStatus from t_studentassignment b where b.assignment=a.assignmentId and student = '"+ studentNumber + "') as assignmentStatus" +
+					" from t_assignment a where 1=1";
 			if(!StringUtils.isEmpty(classNumber)) {
-				sql += " and courseSchedule in (select id from t_courseschedule where classInfo like '%" + classNumber + "%')";
+				sql += " and courseSchedule in (select id from t_courseschedule where classInfo = '" + classNumber + "')";
 			}
 			dumpMsg(sql);
+			long before = System.currentTimeMillis();
 			SQLQuery query = s.createSQLQuery(sql)
 					.addScalar("assignmentId", Hibernate.INTEGER)
 					.addScalar("assignmentName", Hibernate.STRING)
@@ -175,8 +178,11 @@ public class AssignmentDAO {
 					.addScalar("assignmentContent", Hibernate.STRING)
 					.addScalar("assignmentAttachment", Hibernate.STRING)
 					.addScalar("courseName", Hibernate.STRING)
-					.addScalar("courseIconIndex", Hibernate.INTEGER);
+					.addScalar("courseIconIndex", Hibernate.INTEGER)
+					.addScalar("statusId", Hibernate.INTEGER)
+					.addScalar("assignmentStatus", Hibernate.INTEGER);
 			List<Map> list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+			dumpMsg("1 sql spent time::>" + (System.currentTimeMillis() - before));
 			return list;
         } finally {
             HibernateUtil.closeSession();
@@ -197,11 +203,13 @@ public class AssignmentDAO {
 			if(courseScheduleId > 0) {
 				sql += " and courseSchedule="+courseScheduleId;
 			}
+			long before = System.currentTimeMillis();
 			SQLQuery query = s.createSQLQuery(sql)
 					.addScalar("assignmentId", Hibernate.INTEGER)
 					.addScalar("assignmentName", Hibernate.STRING)
 					.addScalar("assignmentDate", Hibernate.STRING);
 			List<Map> list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+			dumpMsg("2 sql spent time::>" + (System.currentTimeMillis() - before));
 			return list;
         } finally {
             HibernateUtil.closeSession();

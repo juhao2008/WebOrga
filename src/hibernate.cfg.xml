@@ -34,6 +34,7 @@
         <mapping resource="com/orga/domain/TestInfo.hbm.xml" />
         <mapping resource="com/orga/domain/ScoreInfo.hbm.xml" />
         <mapping resource="com/orga/domain/Assignment.hbm.xml" />
+        <mapping resource="com/orga/domain/StudentAssignment.hbm.xml" />
         <mapping resource="com/orga/domain/News.hbm.xml" />
         <mapping resource="com/orga/domain/Notify.hbm.xml" />
         

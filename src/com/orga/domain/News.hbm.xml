@@ -25,7 +25,7 @@
 
 		<!-- 简单日期型属性: 发布日期 -->
 		<property name="newsDate" column="newsDate" type="string"
-			length="10" />
+			length="30" />
 
 		<!-- 简单图片属性: 新闻图片 -->
 		<property name="newsPhoto" column="newsPhoto" type="string"

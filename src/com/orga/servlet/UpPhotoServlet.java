@@ -1,15 +1,8 @@
 package com.orga.servlet;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,58 +11,52 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.http.fileupload.DiskFileUpload;
-import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-/**
- * Servlet implementation class UpPhotoServlet
- */
+
 public class UpPhotoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public UpPhotoServlet() {
 		super();
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		this.doPost(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
+		final String action = request.getParameter("action");
+		System.out.println("juhao debug UpPhotoServlet action=" + action);
 		
 		String loadpath=this.getServletConfig().getServletContext().getRealPath("/")+"upload";
-		String temp = this.getServletConfig().getServletContext().getRealPath("/")+"upload/temp"; // 临时目录
-		System.out.println("temp=" + temp);
-		System.out.println("loadpath=" + loadpath);
-		DiskFileUpload fu = new DiskFileUpload();
-		fu.setSizeMax(6 * 1024 * 1024); // 设置允许用户上传文件大小,单位:字节
-		fu.setSizeThreshold(2048); // 设置最多只允许在内存中存储的数据,单位:字节
-		fu.setRepositoryPath(temp); // 设置一旦文件大小超过getSizeThreshold()的值时数据存放在硬盘的目录
+		
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		
+		upload.setSizeMax(6 * 1024 * 1024); // 设置允许用户上传文件大小,单位:字节
+//		fu.setSizeThreshold(2048); // 设置最多只允许在内存中存储的数据,单位:字节
  
 		// 开始读取上传信息
 		int index = 0;
-		List fileItems = null;
+		List<FileItem> fileItems = null;
 
-		try {
-			fileItems = fu.parseRequest(request);
-			System.out.println("fileItems=" + fileItems);
-		} catch (Exception e) {
-			e.printStackTrace();
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		if(isMultipart) {
+			try {
+				fileItems = upload.parseRequest(request);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("not Multipart data.");
 		}
-		
 		String filename = "";
 
 		Iterator iter = fileItems.iterator(); // 依次处理每个上传的文件
@@ -78,22 +65,16 @@ public class UpPhotoServlet extends HttpServlet {
 			if (!item.isFormField()) {
 			    filename = item.getName();// 获取上传文件名,包括路径
 			    System.out.println("@@@@@@@@@@@@@@@@@@@@@ "+filename); 
+			    
 				filename = filename.substring(filename.lastIndexOf("\\") + 1);// 从全路径中提取文件名
 				long size = item.getSize();
 				if ((filename == null || filename.equals("")) && size == 0)
 					continue;
-				int point = filename.indexOf(".");
-//				name = (new Date()).getTime()
-//						+ name.substring(point, name.length());
 				index++; 
 				File file = new File(loadpath);
 				if(!file.exists()){
-					System.out.println("==========================================");
 					file.mkdirs();
 				}
-				Date date = new Date();
-				String timeString =  "" + date.getYear() + date.getMonth() + date.getDay() + date.getHours() + date.getMinutes() + date.getSeconds();
-				filename = timeString + filename;
 				File fNew = new File(loadpath, filename);
 				try {
 					item.write(fNew);
@@ -110,13 +91,8 @@ public class UpPhotoServlet extends HttpServlet {
 		}
 		
 		String newUrl = "upload/" + filename;
-		 
 		PrintWriter out = response.getWriter();
-		 
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%  "+ filename);
-		
 		out.print(newUrl);
-
 	}
 
 }

@@ -20,7 +20,7 @@
 			class="CourseSchedule" lazy="false" outer-join="true" cascade="save-update" />
 		
 		<!-- 简单字符串属性: 作业布置日期 -->
-		<property name="assignmentDate" column="assignmentDate" type="string" length="20"/>
+		<property name="assignmentDate" column="assignmentDate" type="string" length="30"/>
 
 		<!-- 简单字符串属性: 作业内容 -->
 		<property name="assignmentContent" column="assignmentContent"

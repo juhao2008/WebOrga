@@ -42,9 +42,11 @@ public class AssignmentServlet extends HttpServlet {
 		System.out.println(CommUtil.getCurrentDateTimeStr() + "[AssignmentServlet] action=" + action + ",classNum=" + classNum);
 		if("classAssignment".equals(action)) { //all assignments from all course schedules in one class
 			try {
+				final String studentNumber = request.getParameter("studentNumber") == null ? ""
+						: new String(request.getParameter("studentNumber").getBytes("iso-8859-1"), "UTF-8");
 				final String classNumber = request.getParameter("classNumber") == null ? ""
 						: new String(request.getParameter("classNumber").getBytes("iso-8859-1"), "UTF-8");
-				List<Map> list = assignmentDAO.QueryClassAssignments(classNumber);
+				List<Map> list = assignmentDAO.QueryClassAssignments(classNumber, studentNumber);
 				outSuccessResult(response, list);
 				
 			} catch (Exception ex) {
@@ -84,22 +86,59 @@ public class AssignmentServlet extends HttpServlet {
 			
 	    } else if("setStatus".equals(action)) { 
 			try {
-				final String strId = request.getParameter("id") == null ? ""
-						: new String(request.getParameter("id").getBytes("iso-8859-1"), "UTF-8");
-				final int id = Integer.parseInt(strId);
+				final String studentNumber = request.getParameter("studentNumber") == null ? ""
+						: new String(request.getParameter("studentNumber").getBytes("iso-8859-1"), "UTF-8");
+				
+				final String strAssignmentId = request.getParameter("assignmentId") == null ? ""
+						: new String(request.getParameter("assignmentId").getBytes("iso-8859-1"), "UTF-8");
+				int assignmentId = 0;
+				if(CommUtil.isNotNull(strAssignmentId)) {
+					assignmentId = Integer.parseInt(strAssignmentId);
+				}
+				
+				final String strId = request.getParameter("statusId") == null ? ""
+						: new String(request.getParameter("statusId").getBytes("iso-8859-1"), "UTF-8");
+				int statusId = 0;
+				if(CommUtil.isNotNull(strId)) {
+					statusId = Integer.parseInt(strId);
+				}
 				final String strValue = request.getParameter("statusValue") == null ? ""
 						: new String(request.getParameter("statusValue").getBytes("iso-8859-1"), "UTF-8");
 				final int value = Integer.parseInt(strValue);
 				
-				StudentAssignment assignmentStatus = assignmentStatusDAO.GetStudentAssignmentById(id);
-				assignmentStatus.setAssignmentStatus(value);
-				if(value == StudentAssignment.STATUS_FINISH_UNSIGN) {
-					assignmentStatus.setFinishDate(CommUtil.getCurrentDateTimeStr());
-				} else if(value == StudentAssignment.STATUS_FINISH_SIGN) {
-					assignmentStatus.setSignDate(CommUtil.getCurrentDateTimeStr());
+				final String signImageFile = request.getParameter("signImageFile") == null ? ""
+						: new String(request.getParameter("signImageFile").getBytes("iso-8859-1"), "UTF-8");
+				
+				StudentAssignment assignmentStatus = assignmentStatusDAO.GetStudentAssignmentById(statusId);
+				if(assignmentStatus != null) {
+					System.out.println("current value=" + assignmentStatus.getAssignmentStatus() + ", +Value=" + value);
+					assignmentStatus.setAssignmentStatus(assignmentStatus.getAssignmentStatus() + value);
+					
+					if(value == StudentAssignment.STATUS_FINISH) {//1
+						assignmentStatus.setFinishDate(CommUtil.getCurrentDateTimeStr());
+						
+					} else if(value == StudentAssignment.STATUS_SIGN) {//2
+						assignmentStatus.setSignDate(CommUtil.getCurrentDateTimeStr());
+						assignmentStatus.setSignUrl(signImageFile);
+					}
+					assignmentStatusDAO.UpdateStudentAssignment(assignmentStatus);
+					this.outSuccessResult(response, statusId);
+				} else {
+					StudentAssignment obj = new StudentAssignment();
+					obj.setAssignment(assignmentDAO.GetAssignmentById(assignmentId));
+					obj.setStudent(studentNumber);
+					
+					obj.setAssignmentStatus(value);
+					if(value == StudentAssignment.STATUS_FINISH) {//1
+						obj.setFinishDate(CommUtil.getCurrentDateTimeStr());
+						
+					} else if(value == StudentAssignment.STATUS_SIGN) {//2
+						obj.setSignDate(CommUtil.getCurrentDateTimeStr());
+						obj.setSignUrl(signImageFile);
+					}
+					final int newStatusId = assignmentStatusDAO.AddStudentAssignment(obj);
+					this.outSuccessResult(response, newStatusId);
 				}
-				assignmentStatusDAO.UpdateStudentAssignment(assignmentStatus);
-				outSuccessResult(response, null);
 				
 			} catch (Exception ex) {
 				outErrorResult(response, ex.getLocalizedMessage());
@@ -163,6 +202,22 @@ public class AssignmentServlet extends HttpServlet {
 				outErrorResult(response, ex.getMessage());
 				ex.printStackTrace();
 			}
+		}
+	}
+	
+	private void outSuccessResult(HttpServletResponse response, int id) {
+		try {
+			JSONObject result = new JSONObject();
+			result.put("success", true);
+			result.put("statusId", id);
+			
+			response.setCharacterEncoding("utf-8");
+			PrintWriter out = response.getWriter();
+			out.print(result);
+			out.close();
+		} catch (Exception ex) {
+			outErrorResult(response, ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 	

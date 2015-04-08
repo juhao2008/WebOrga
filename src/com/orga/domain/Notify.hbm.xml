@@ -29,7 +29,7 @@
 
 		<!-- 简单日期型属性: 发布日期 -->
 		<property name="notifyDate" column="notifyDate" type="string"
-			length="10" />
+			length="30" />
 
 	</class>
 
