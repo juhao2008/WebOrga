@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import com.opensymphony.xwork2.util.logging.Logger;
 import com.orga.dao.AssignmentDAO;
 import com.orga.dao.CourseScheduleDAO;
 import com.orga.dao.StudentAssignmentDAO;
@@ -111,7 +112,6 @@ public class AssignmentServlet extends HttpServlet {
 				
 				StudentAssignment assignmentStatus = assignmentStatusDAO.GetStudentAssignmentById(statusId);
 				if(assignmentStatus != null) {
-					System.out.println("current value=" + assignmentStatus.getAssignmentStatus() + ", +Value=" + value);
 					assignmentStatus.setAssignmentStatus(assignmentStatus.getAssignmentStatus() + value);
 					
 					if(value == StudentAssignment.STATUS_FINISH) {//1
@@ -252,8 +252,6 @@ public class AssignmentServlet extends HttpServlet {
 			ex.printStackTrace();
 		} 
 	}
-	
-	
 	
 	
 }

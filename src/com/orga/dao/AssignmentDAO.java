@@ -41,7 +41,7 @@ public class AssignmentDAO {
         return recordNumber;
     }
 
-    /*添加成绩信息*/
+    /*添加作业信息*/
     public void AddAssignment(Assignment assignment) throws Exception {
 //    	dumpMsg("AddAssignment::" + assignment.toString());
         Session s = null;
